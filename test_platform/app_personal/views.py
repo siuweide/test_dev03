@@ -35,5 +35,3 @@ def logout(request):
     return redirect('/login/')
 
 
-def manage(request):
-    return render(request, 'manage.html')
