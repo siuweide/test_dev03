@@ -11,3 +11,9 @@ class ProjectForm(forms.Form):
     status = forms.BooleanField(label="状态", required=False,
                                 widget=widgets.CheckboxInput()
                                 )
+
+class ProjectEditFrom(forms.ModelForm):
+
+    class Meta:
+        model = Project
+        fields = ['name', 'describe', 'status']
