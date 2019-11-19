@@ -29,7 +29,7 @@ def login(request):
             })
 
 
-@login_required
+
 def logout(request):
     auth.logout(request)
     return redirect('/login/')

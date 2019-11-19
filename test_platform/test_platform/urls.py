@@ -21,6 +21,12 @@ from app_manage import views as manage_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', personal_view.login),
-    path('project/', include('app_manage.urls')),
     path('logout/', personal_view.logout),
+
+    # 项目/模块管理
+    path('manage/', include('app_manage.urls')),
+
+    # # 模块管理
+    # path('module/', include('app_manage.urls')),
+
 ]

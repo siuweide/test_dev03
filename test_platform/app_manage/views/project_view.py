@@ -7,7 +7,7 @@ from app_manage.form import ProjectForm,ProjectEditFrom
 
 
 # @login_required
-def manage(request):
+def list_project(request):
     """
     项目管理
     """
@@ -24,7 +24,7 @@ def project_add(request):
             describe = form.cleaned_data['describe']
             status = form.cleaned_data['status']
             Project.objects.create(name=name, describe=describe, status=status)
-        return redirect('/project/')
+        return redirect('/manage/')
     else:
         form = ProjectForm()
     return render(request, 'project/add.html', {
@@ -44,7 +44,7 @@ def project_edit(request, pid):
             p.describe = describe
             p.status = status
             p.save()
-        return redirect('/project/')
+        return redirect('/manage/')
 
     else:
         if pid:
@@ -56,3 +56,9 @@ def project_edit(request, pid):
             'form':form,
             'id':pid
         })
+
+def project_delete(request, pid):
+    if request.method == 'GET':
+        project = Project.objects.get(id=pid)
+        project.delete()
+        return redirect('/manage/')
