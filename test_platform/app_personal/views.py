@@ -16,7 +16,9 @@ def login(request):
         if user is not None:
             # return render(request, 'manage.html')
             auth.login(request, user) #记录用户的登录状态
-            return redirect('/manage/')
+            response = redirect('/manage/')
+            response.set_cookie("user", username, 3600)
+            return response
         elif username == '' or password == '':
             error = 'username or password is not null'
             return render(request, 'login.html', {

@@ -34,8 +34,8 @@
                             <td>{{ m.describe }}</td>
                             <td>{{ m.create_time |date:"Y-m-d H:i:s"}}</td>
                             <td>
-                                <a href="/project/edit/{{p.id}}/">编辑</a>
-                                <a href="/project/delete/{{p.id}}/">删除</a>
+                                <a href="/manage/module_edit/{{m.id}}/">编辑</a>
+                                <a href="/manage/module_delete/{{m.id}}/">删除</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -75,7 +75,7 @@
 </div>
 <script>
     function add() {
-        window.location.href = "/project/add/";
+        window.location.href = "/manage/module_add/";
     }
 </script>
 
