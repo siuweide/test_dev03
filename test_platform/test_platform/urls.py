@@ -26,7 +26,7 @@ urlpatterns = [
     # 项目/模块管理
     path('manage/', include('app_manage.urls')),
 
-    # # 模块管理
-    # path('module/', include('app_manage.urls')),
+    # 用例管理
+    path('case/', include('app_case.urls')),
 
 ]
