@@ -86,13 +86,34 @@
                             <input type="radio" name="assert_type" id="equal" value="equal"> 相等
                         </label>
                     </div>
+
                     <div style="margin-top: 0px;">
                         <textarea id="assert" class="form-control" rows="10" name=textarea></textarea>
                     </div>
 
-                </div>
+                    <!--选择项目-->
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect2">项目</label>
+                      <select class="form-control" id="projectList">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                    </div>
 
-            </div>
+                    <!--选择模块-->
+                        <div class="form-group">
+                          <label for="exampleFormControlSelect2">模块</label>
+                          <select class="form-control" id="moduleList">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </select>
+                        </div>
         </div>
 
     </div>
@@ -103,80 +124,72 @@
 <script src="https://cdn.bootcss.com/jquery-jsonview/1.2.3/jquery.jsonview.js"></script>
 <link href="https://cdn.bootcss.com/jsoneditor/5.32.5/jsoneditor.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/jsoneditor/5.32.5/jsoneditor.js"></script>
+<script src="/static/js/manage.js"></script>
 <script type="text/javascript">
+
     //初始化JSONeditor编辑框
     var headers = document.getElementById("headerEditor");
     var parameters = document.getElementById("parameterEditor");
     var options = {
-        mode: "code",
+        mode: "code"
     };
-    var parameterEditor = new JSONEditor(parameters, options);
     var headerEditor = new JSONEditor(headers, options);
+    var parameterEditor = new JSONEditor(parameters, options);
     function sendFun() {
-//        req_url = $('#req_url').val();
-//        req_method = $('input[name="req_method"]:checked').val();
-//        req_header = $('#header').val();
-//        req_type = $('input[name="par_type"]:checked').val();
-//        req_parameter = parameterEditor.get(); //$('#parameter').val();
-//        let req_parameter_str = JSON.stringify(req_parameter, null, 2);
-//        console.log("req_par", req_parameter_str);
-//        if (req_url == ""){
-//            window.alert("URL地址不能为空");
-//            return;
-//        }
-//        $.get("/case/send_req/", {
-//            url: req_url,
-//            method: req_method,
-//            header: req_header,
-//            per_type: req_type,
-//            per_value: req_parameter_str,
-//        },
-//        function (resp) {
-//            console.log("resp", resp);
-//            if(resp.code == 10200) {
-//                document.querySelector("#result").value = resp.data;
-//            } else {
-//                window.alert(resp.message);
-//            }
-//
-//        });
-        // 自己写的
-        req_url = document.querySelector("#req_url").value
+        req_url = $('#req_url').val();
         req_method = $('input[name="req_method"]:checked').val();
-//        req_header = document.querySelector("#header").value
+        // req_header = $('#header').val();
         req_type = $('input[name="par_type"]:checked').val();
-        req_header = headerEditor.get()
-        req_parameter = parameterEditor.get()
-        let req_header_str = JSON.stringify(req_header, null, 2)
-        let req_parameter_str = JSON.stringify(req_parameter, null, 2)
-
+        req_header = headerEditor.get();
+        req_parameter = parameterEditor.get();
+        let req_header_str = JSON.stringify(req_header, null, 2);
+        let req_parameter_str = JSON.stringify(req_parameter, null, 2);
+        console.log("req_par", req_parameter_str);
         if (req_url == ""){
             window.alert("URL地址不能为空");
             return;
         }
-
-        $.get('/case/send_req/', {
-            'url':req_url,
-            'method':req_method,
-            'header':req_header_str,
-            'per_type':req_type,
-            'per_value':req_parameter_str
+        $.get("/case/send_req/", {
+            url: req_url,
+            method: req_method,
+            header: req_header_str,
+            per_type: req_type,
+            per_value: req_parameter_str,
         },
-           function(resp){
-               console.log('resp', resp);
-               if(resp.status == 10200){
-                   document.querySelector("#result").value= resp.data;
-               }else {
-                   window.alert(resp.message);
-               }}
-        )
+        function (resp) {
+            console.log("resp", resp);
+            if(resp.code == 10200) {
+                document.querySelector("#result").value = resp.data;
+            } else {
+                window.alert(resp.message);
+            }
+
+        });
+
     }
+
 
     function assertFun() {
-        var result_text = $('#result').val()
-        var assert_text = $('#assert').val()
-        req_type = $('input[name="assert_type"]:checked').val();
+        var result_text = $('#result').val();
+        var assert_text = $('#assert').val();
+        var assert_type = $('input[name="assert_type"]:checked').val();
+        if(result_text == "" || assert_text == ""){
+            window.alert("断言的结果不能为空！");
+        }
+
+        $.post("/case/assert_result/", {
+            result_text: result_text,
+            assert_text: assert_text,
+            assert_type: assert_type,
+            }, function (resp) {
+                if(resp.code == 10200){
+                    window.alert(resp.message);
+                } else {
+                    window.alert(resp.message);
+                }
+        });
     }
+
 </script>
 
 <style>
