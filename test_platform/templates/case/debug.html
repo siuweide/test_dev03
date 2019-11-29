@@ -94,26 +94,27 @@
                     <!--选择项目-->
                     <div class="form-group">
                       <label for="exampleFormControlSelect2">项目</label>
-                      <select class="form-control" id="projectList">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                      <select class="form-control" id="selectProject">
                       </select>
                     </div>
 
                     <!--选择模块-->
                         <div class="form-group">
                           <label for="exampleFormControlSelect2">模块</label>
-                          <select class="form-control" id="moduleList">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                          <select class="form-control" id="selectModule">
                           </select>
                         </div>
+
+                    <!--用例的名称-->
+                    <div class="input-group option">
+                        <span class="input-group-addon option-tile">名称：</span>
+                        <input id="case_name" type="text" class="form-control">
+                    </div>
+
+                    <!--保存用例-->
+                    <div style="float: right;height: 50px;">
+                        <button type="button" class="btn btn-primary" onclick="saveFun()">保存</button>
+                    </div>
         </div>
 
     </div>
@@ -126,6 +127,8 @@
 <script src="https://cdn.bootcss.com/jsoneditor/5.32.5/jsoneditor.js"></script>
 <script src="/static/js/manage.js"></script>
 <script type="text/javascript">
+    //初始化
+    SelectInit()
 
     //初始化JSONeditor编辑框
     var headers = document.getElementById("headerEditor");
@@ -138,7 +141,6 @@
     function sendFun() {
         req_url = $('#req_url').val();
         req_method = $('input[name="req_method"]:checked').val();
-        // req_header = $('#header').val();
         req_type = $('input[name="par_type"]:checked').val();
         req_header = headerEditor.get();
         req_parameter = parameterEditor.get();
@@ -165,7 +167,6 @@
             }
 
         });
-
     }
 
 
@@ -188,6 +189,48 @@
                     window.alert(resp.message);
                 }
         });
+    }
+
+    <!--用例保存-->
+    function saveFun() {
+        req_url = $('#req_url').val();
+        req_method = $('input[name="req_method"]:checked').val();
+        req_type = $('input[name="par_type"]:checked').val();
+        req_header = headerEditor.get();
+        req_parameter = parameterEditor.get();
+        let req_header_str = JSON.stringify(req_header, null, 2);
+        let req_parameter_str = JSON.stringify(req_parameter, null, 2);
+
+        var result_text = $('#result').val();
+        var assert_text = $('#assert').val();
+        var assert_type = $('input[name="assert_type"]:checked').val();
+
+        var module_id = $('select[id="selectModule"]').val();
+        var case_name = $('#case_name').val();
+
+        if (req_url == ""){
+            window.alert("URL地址不能为空");
+            return;
+        }
+        $.post("/case/save_case/", {
+            url: req_url,
+            method: req_method,
+            header: req_header_str,
+            per_type: req_type,
+            per_value: req_parameter_str,
+            result_text: result_text,
+            assert_text: assert_text,
+            assert_type: assert_type,
+            module_id: module_id,
+            case_name: case_name
+        }, function (resp) {
+                if(resp.code == 10200) {
+                    document.querySelector("#result").value = resp.data;
+                } else {
+                    window.alert(resp.message);
+                }
+
+            });
     }
 
 </script>

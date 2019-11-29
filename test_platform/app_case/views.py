@@ -1,7 +1,10 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 import requests
 import json
+from django.shortcuts import render
+from django.http import JsonResponse
+from app_manage.models import Project,Module
+from app_case.models import TestCase
+
 
 
 
@@ -20,11 +23,6 @@ def send_req(request):
         per_type = request.GET.get("per_type", "")
         per_value = request.GET.get("per_value", "")
 
-        print("url--->", url, type(url))
-        print("header--->", header, type(header))
-        print("method--->", method, type(method))
-        print("per_type--->", per_type, type(per_type))
-        print("per_value--->", per_value, type(per_value))
         if url == "":
             return JsonResponse({"code": 10101, "message": "URL不能为空！"})
 
@@ -79,3 +77,75 @@ def assert_result(request):
                 return JsonResponse({"code": 10105, "message":"断言失败"})
 
         return JsonResponse({"code": 10106, "message":"fail"})
+
+
+def get_select_data(request):
+    """获取项目/模块的数据"""
+    if request.method == "GET":
+        projects = Project.objects.all()
+        data_list = []
+        for p in projects:
+            project_dict = {
+                "id":p.id,
+                "name":p.name
+            }
+            modules = Module.objects.filter(project_id=p.id)
+            module_list = []
+            for m in modules:
+                module_dict = {
+                    "id":m.id,
+                    "name":m.name
+                }
+                module_list.append(module_dict)
+            project_dict["moduleList"] = module_list
+
+            data_list.append(project_dict)
+        return JsonResponse({"code":10200, "message":"success", "data":data_list})
+
+def save_case(request):
+    """ 保存用例 """
+    if request.method == "POST":
+        url = request.POST.get("url","")
+        method = request.POST.get("method","")
+        header = request.POST.get("header","")
+        per_type = request.POST.get("per_type","")
+        per_value = request.POST.get("per_value","")
+        result_text = request.POST.get("result_text","")
+        assert_text = request.POST.get("assert_text","")
+        assert_type = request.POST.get("assert_type","")
+        module_id = request.POST.get("module_id","")
+        case_name = request.POST.get("case_name","")
+
+        if method == "get":
+            method_int = 1
+        elif method == "post":
+            method_int = 2
+        else:
+            return JsonResponse({"code":10101,"message":"请求方法错误"})
+
+        if per_type == "form":
+            per_type_int = 1
+        elif per_type == "json":
+            per_type_int = 2
+        else:
+            return JsonResponse({"code":10102,"message":"参数类型错误"})
+
+        if assert_type == "include":
+            assert_type_int = 1
+        elif assert_type == "equal":
+            assert_type_int = 2
+        else:
+            return JsonResponse({"code":10103,"message":"断言类型类型错误"})
+
+        TestCase.objects.create(module_id=module_id,
+                                name=case_name,
+                                url=url,
+                                method=method_int,
+                                header=header,
+                                parameter_type=per_type_int,
+                                parameter_body=per_value,
+                                result=result_text,
+                                assert_type=assert_type_int,
+                                assert_text=assert_text)
+        return JsonResponse({"code":10200,"message":"save success"})
+
