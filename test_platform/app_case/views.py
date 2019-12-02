@@ -6,10 +6,14 @@ from app_manage.models import Project,Module
 from app_case.models import TestCase
 
 
-
-
 def list_case(request):
-    return render(request, 'case/debug.html')
+    case_projects = TestCase.objects.all()
+    return render(request,'case/list.html',{
+        'case_projects':case_projects
+    })
+
+def add_case(request):
+    return render(request, 'case/add.html')
 
 
 def send_req(request):
