@@ -2,19 +2,36 @@ import requests
 import json
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from app_manage.models import Project,Module
 from app_case.models import TestCase
 
 
 def list_case(request):
+    ''' 用例列表 '''
     case_projects = TestCase.objects.all()
+    p = Paginator(case_projects, 2)
+    page = request.GET.get('page')
+    print('page-------------------->',page)
+    if page == '':
+        page = 1
+    try:
+        case_projects = p.page(page)
+    except PageNotAnInteger:
+        case_projects = p.page(1)
+    except EmptyPage:
+        case_projects = p.page(p.num_pages)
     return render(request,'case/list.html',{
         'case_projects':case_projects
     })
 
 def add_case(request):
+    ''' 添加用例 '''
     return render(request, 'case/add.html')
 
+def edit_case(request,cid):
+    ''' 编辑用例 '''
+    return render(request, 'case/edit.html')
 
 def send_req(request):
     """

@@ -8,5 +8,7 @@ urlpatterns = [
     path('assert_result/', views.assert_result),
     path('get_select_data/', views.get_select_data),
     path('save_case/',views.save_case),
+    path('add_case/', views.add_case),
     path('list_case/', views.list_case),
+    path('edit_case/<int:cid>/', views.edit_case),
     ]
