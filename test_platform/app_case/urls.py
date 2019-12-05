@@ -11,4 +11,6 @@ urlpatterns = [
     path('add_case/', views.add_case),
     path('list_case/', views.list_case),
     path('edit_case/<int:cid>/', views.edit_case),
+    path('get_case_info/',views.get_case_info),
+    path('delete_case/', views.delete_case),
     ]

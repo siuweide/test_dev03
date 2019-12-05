@@ -126,9 +126,13 @@
 <link href="https://cdn.bootcss.com/jsoneditor/5.32.5/jsoneditor.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/jsoneditor/5.32.5/jsoneditor.js"></script>
 <script src="/static/js/manage.js"></script>
+<script src="/static/js/case.js"></script>
 <script type="text/javascript">
     //初始化
-    SelectInit()
+    //SelectInit()
+
+    //获取用例的信息
+    getCaseInfo();
 
     //初始化JSONeditor编辑框
     var headers = document.getElementById("headerEditor");
@@ -156,7 +160,7 @@
             method: req_method,
             header: req_header_str,
             per_type: req_type,
-            per_value: req_parameter_str,
+            per_value: req_parameter_str
         },
         function (resp) {
             console.log("resp", resp);
@@ -193,6 +197,8 @@
 
     <!--用例保存-->
     function saveFun() {
+        var url = window.location.href;
+        var caseId = url.split('/')[5];
         req_url = $('#req_url').val();
         req_method = $('input[name="req_method"]:checked').val();
         req_type = $('input[name="par_type"]:checked').val();
@@ -213,6 +219,7 @@
             return;
         }
         $.post("/case/save_case/", {
+            cid: caseId,
             url: req_url,
             method: req_method,
             header: req_header_str,
@@ -225,7 +232,7 @@
             case_name: case_name
         }, function (resp) {
                 if(resp.code == 10200) {
-                    document.querySelector("#result").value = resp.data;
+                    window.alert(resp.message);
                 } else {
                     window.alert(resp.message);
                 }
