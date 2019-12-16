@@ -18,32 +18,33 @@
                         <tr role="row">
                             <th>id</th>
                             <th>名称</th>
-                            <th>url</th>
-                            <th>请求方法</th>
-                            <th>项目</th>
-                            <th>模块</th>
+                            <th>描述</th>
+                            <th>状态</th>
+                            <th>用例</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        {% for c in case_projects %}
+                        {% for t in task %}
                         <tr role="row" class="odd">
-                            <td>{{ c.id }}</td>
-                            <td>{{ c.name }}</td>
-                            <td>{{ c.url }}</td>
-                            {% if c.method == 1 %}
-                                <td>GET</td>
+                            <td>{{ t.id }}</td>
+                            <td>{{ t.name }}</td>
+                            <td>{{ t.describe }}</td>
+                            {% if t.status == 0 %}
+                                <td>未执行</td>
                             {% endif %}
-                            {% if c.method == 2 %}
-                                <td>POST</td>
+                            <td>{{ t.cases }}</td>
+                            {% if t.status == 1 %}
+                                <td>执行中</td>
                             {% endif %}
-                            <td>{{ c.module.project }}</td>
-                            <td>{{ c.module }}</td>
-                            <td>{{ c.create_time | date:"Y-m-d H:i:s"}}</td>
+                             {% if t.status == 2 %}
+                                <td>已执行</td>
+                            {% endif %}
+                            <td>{{ t.create_time | date:"Y-m-d H:i:s"}}</td>
                             <td>
-                                <a href="/case/edit_case/{{c.id}}/">编辑</a>
+                                <a href="/task/task_edit/{{t.id}}/">编辑</a>
                                 <a style="color:#47bac1" onclick="case_delete({{ c.id }})">删除</a>
                             </td>
                         </tr>
