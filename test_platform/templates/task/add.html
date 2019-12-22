@@ -2,7 +2,7 @@
 {% block manage %}
 <div class="card flex-fill">
     <div class="card-header">
-        <h5 class="card-title mb-0" style="float:left">创建任务</h5>
+        <h5 class="card-title mb-0" style="float:left">创建项目</h5>
     </div>
     <div id="datatables-dashboard-traffic_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
         <div class="row">
@@ -12,15 +12,20 @@
         <div class="row">
             <div class="col-sm-12">
                 <div style="margin-left: 20px;margin-right: 20px; width: 80%">
+
                     <div class="input-group option">
                         <span class="input-group-addon option-tile">名称：</span>
                         <input id="task_name" type="text" class="form-control">
                     </div>
-                    <div style="margin-top: 20px" class="input-group option">
+                    <br>
+
+                    <div class="input-group option">
                         <span class="input-group-addon option-tile">描述：</span>
                         <textarea id="task_desc" class="form-control" rows="3" name=textarea></textarea>
                     </div>
-                    <div style="margin-top: 20px" class="input-group option">
+                    <br>
+
+                    <div class="input-group option">
                         <span class="input-group-addon option-tile">用例：</span>
                         <div class="card" style="width: 50%">
                             <div class="card-body">
@@ -28,8 +33,9 @@
                             </div>
                         </div>
                     </div>
-                    <button style="margin-top:20px; float:right;" type="submit" class="btn btn-primary" onclick="add_task()">创建</button>
+                    <br>
 
+                    <button type="submit" class="btn btn-primary" onclick="add_task()">创建</button>
                 </div>
 
             </div>
@@ -38,39 +44,33 @@
     </div>
 </div>
 
-<link href="https://cdn.bootcss.com/zTree.v3/3.5.39/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/jquery/1.4.2/jquery.js"></script>
+<link href="https://cdn.bootcss.com/zTree.v3/3.5.39/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/zTree.v3/3.5.40/js/jquery.ztree.all.js"></script>
-<script text="text/javascript">
+<script type="application/javascript">
     var zTreeObj;
-   // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-   var setting = {
+    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+    var setting;
+    var zNodes;
+    $(document).ready(function () {
+        setting = {
             check: {
                 enable: true,
                 chkStyle: "checkbox"
             }
-   };
-   // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
-   var zNodes;
-
-   $(document).ready(function(){
-        $.get("/task/case_node/", {},
-        function (resp) {
-            console.log("resp", resp.data);
+        };
+        $.get("/task/case_node/", {}, function (resp) {
+            console.log("data--->", resp.data);
             zNodes = resp.data;
-
             zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
         });
-
-   });
-
-    //保存任务
-    function add_task(){
+    });
+    // 保存任务
+    function add_task() {
         var taskName = $('#task_name').val();
         var taskDesc = $('#task_desc').val();
         console.log("task", taskName, taskDesc);
-
-        if(taskName == ''){
+        if(taskName == ""){
             alert("任务的名称不能为空！");
             return;
         }
@@ -83,24 +83,21 @@
 				cases.push(nodes[i].id);
 			}
 		}
-        // 将列表转为字符串
+		// 将列表转为字符串
 		var casesStr = JSON.stringify(cases);
-
-        console.log("cases:",cases);
-
-        $.post("/task/save_task/", {
-            name: taskName,
-            desc: taskDesc,
-            case: casesStr
-        }, function(resp){
-                    if(resp.status == 10200){
-                        window.alert("创建任务成功")
-                    }
-                }
-        )
-
+		console.log("cases", casesStr);
+		$.post("/task/save_task/", {
+		        tid: 0,
+				name: taskName,
+				desc: taskDesc,
+				cases: casesStr
+			},
+			function (resp) {
+				if(resp.status == 10200){
+					window.alert("创建任务成功！")
+				}
+			});
     }
-
-
 </script>
+
 {% endblock %}

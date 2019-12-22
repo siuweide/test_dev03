@@ -1,0 +1,17 @@
+{
+    "post接口用例（data）update": {
+        "url": "https://httpbin.org/post",
+        "method": "post",
+        "par": "{\"key\": \"value\"}"
+    },
+    "get请求啊": {
+        "url": "http://httpbin.org/get",
+        "method": "get",
+        "par": "{\"key1\": \"value1\",\"key2\": \"value2\"}"
+    },
+    "测试get请求啊": {
+        "url": "http://httpbin.org/get",
+        "method": "get",
+        "par": "{\"key1\": \"value1\",\"key2\": \"value2\"}"
+    }
+}

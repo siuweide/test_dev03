@@ -44,6 +44,7 @@
                             {% endif %}
                             <td>{{ t.create_time | date:"Y-m-d H:i:s"}}</td>
                             <td>
+                                <a href="/task/task_run/{{t.id}}/">执行</a>
                                 <a href="/task/task_edit/{{t.id}}/">编辑</a>
                                 <a style="color:#47bac1" onclick="case_delete({{ c.id }})">删除</a>
                             </td>

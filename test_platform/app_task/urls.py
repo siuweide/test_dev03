@@ -7,7 +7,8 @@ urlpatterns = [
     path('task_add/', views.task_add),
     path('case_node/',views.case_node),
     path('save_task/', views.save_task),
-    path('task_edit/<int:tid>/', views.task_edit)
+    path('task_edit/<int:tid>/', views.task_edit),
+    path('task_run/<int:tid>/', views.task_rung)
     ]
 
 
