@@ -7,7 +7,7 @@ from app_case.models import TestCase
 from app_manage.models import Project,Module
 from app_task.models import TestTask,TestResult
 from app_task.setting import TASK_DATA,TASK_RUN,TASK_RESULTS
-
+from app_task.extend.task_thread import TaskThread
 
 def task_list(request):
     """ 任务列表 """
@@ -148,48 +148,21 @@ def task_edit(request, tid):
 
 
 def task_rung(request, tid):
-    task = TestTask.objects.get(id=tid)
-    task_cases = task.cases[1:-1].split(",")
-    print(task_cases)
-    cases_dict = {}
-    for case in task_cases:
-        case = TestCase.objects.get(id=case)
-        print(case)
-        cases_dict[case.name] = {
-            "url":case.url,
-            "method":case.method,
-            "header":case.header,
-            "parameter_type":case.parameter_type,
-            "parameter_body":case.parameter_body,
-            "assert_type":case.assert_type,
-            "assert_text":case.assert_text
-        }
-    cases_str = json.dumps(cases_dict)
-    with open(TASK_DATA, 'w', encoding="utf-8") as f:
-        f.write(cases_str)
-    print("执行的运行文件", TASK_RUN)
-    os.system("python " + TASK_RUN)
-
-    f = open(TASK_RESULTS,encoding="utf-8")
-    xmlresults = f.read()
-    f.close()
-
-    dom = parse(TASK_RESULTS)
-    root = dom.documentElement
-    test_suite = root.getElementsByTagName('testsuite')
-    errors = test_suite[0].getAttribute("errors")
-    failures = test_suite[0].getAttribute("failures")
-    skipped = test_suite[0].getAttribute("skipped")
-    name = test_suite[0].getAttribute("name")
-    tests = test_suite[0].getAttribute("tests")
-    time = test_suite[0].getAttribute("time")
-
-    TestResult.objects.create(task_id=tid,
-                              name=name,
-                              errors=errors,
-                              failures=failures,
-                              skipped=skipped,
-                              tests=tests,
-                              run_time=time,
-                              result=xmlresults)
+    """ 运行任务 """
+    task = TaskThread(tid)
+    task.run()
     return redirect("/task/task_list/")
+
+def task_log(request,tid):
+    """ 日志管理 """
+    results = TestResult.objects.filter(id=tid)
+    return render(request, "task/log.html" ,{
+        "results":results
+    })
+
+def get_log(request):
+    """ 获取日志 """
+    if request.method == "POST":
+        rid = request.POST.get("rid", "")
+        result = TestResult.objects.get(id=rid)
+        return JsonResponse({"status":10200, "message":"获取日志成功","data":result.result})
