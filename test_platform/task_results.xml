@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+	<testsuite errors="0" failures="0" file=".py" name="TaskTest-20191223224940" skipped="0" tests="3" time="2.578" timestamp="2019-12-23T22:49:43">
+		<testcase classname="TaskTest" file="task_demo.py" line="9" name="test_file_data_json_dict_dict_00001_post接口用例_data_update" time="1.599" timestamp="2019-12-23T22:49:42">
+			<system-out>
+<![CDATA[{'args': {}, 'data': '{"key": "value"}', 'files': {}, 'form': {}, 'headers': {'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate', 'Content-Length': '16', 'Host': 'httpbin.org', 'User-Agent': 'python-requests/2.20.1'}, 'json': {'key': 'value'}, 'origin': '113.73.157.157, 113.73.157.157', 'url': 'https://httpbin.org/post'}
+]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+		<testcase classname="TaskTest" file="task_demo.py" line="9" name="test_file_data_json_dict_dict_00002_get请求啊" time="0.496" timestamp="2019-12-23T22:49:43">
+			<system-out>
+<![CDATA[{'args': {'{"key1": "value1","key2": "value2"}': ''}, 'headers': {'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate', 'Host': 'httpbin.org', 'User-Agent': 'python-requests/2.20.1'}, 'origin': '113.73.157.157, 113.73.157.157', 'url': 'https://httpbin.org/get?{"key1": "value1","key2": "value2"}'}
+]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+		<testcase classname="TaskTest" file="task_demo.py" line="9" name="test_file_data_json_dict_dict_00003_测试get请求啊" time="0.484" timestamp="2019-12-23T22:49:43">
+			<system-out>
+<![CDATA[{'args': {'{"key1": "value1","key2": "value2"}': ''}, 'headers': {'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate', 'Host': 'httpbin.org', 'User-Agent': 'python-requests/2.20.1'}, 'origin': '113.73.157.157, 113.73.157.157', 'url': 'https://httpbin.org/get?{"key1": "value1","key2": "value2"}'}
+]]>			</system-out>
+			<system-err>
+<![CDATA[]]>			</system-err>
+		</testcase>
+	</testsuite>
+</testsuites>

@@ -155,7 +155,8 @@ def task_rung(request, tid):
 
 def task_log(request,tid):
     """ 日志管理 """
-    results = TestResult.objects.filter(id=tid)
+    print('tid----------->',tid)
+    results = TestResult.objects.filter(task_id=tid)
     return render(request, "task/log.html" ,{
         "results":results
     })

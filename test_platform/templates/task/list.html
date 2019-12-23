@@ -35,13 +35,13 @@
                             {% if t.status == 0 %}
                                 <td>未执行</td>
                             {% endif %}
-                            <td>{{ t.cases }}</td>
                             {% if t.status == 1 %}
                                 <td>执行中</td>
                             {% endif %}
                              {% if t.status == 2 %}
                                 <td>执行完成</td>
                             {% endif %}
+                            <td>{{ t.cases }}</td>
                             <td>{{ t.create_time | date:"Y-m-d H:i:s"}}</td>
                             <td>
                                 <a href="/task/task_run/{{t.id}}/">执行</a>
