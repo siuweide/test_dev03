@@ -1,11 +1,13 @@
-import requests
+import re
 import json
+import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
 from django.forms.models import model_to_dict
 from app_manage.models import Project,Module
 from app_case.models import TestCase
+from app_variable.models import variable
 
 
 def list_case(request):
@@ -47,6 +49,10 @@ def send_req(request):
 
         if url == "":
             return JsonResponse({"code": 10101, "message": "URL不能为空！"})
+        elif "${" in url and "}" in url:
+            key = re.findall(r"\${(.+?)}", url)
+            url = variable.objects.get(key=key[0]).value
+            print("variable========>",url)
 
         try:
             header = json.loads(header)

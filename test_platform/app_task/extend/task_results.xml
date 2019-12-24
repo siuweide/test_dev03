@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite errors="0" failures="0" file=".py" name="TaskTest-20191223230646" skipped="0" tests="2" time="1.690" timestamp="2019-12-23T23:06:48">
-		<testcase classname="TaskTest" file="app_task\extend\task_run.py" line="16" name="test_file_data_json_dict_dict_00001_post接口用例_data_update" time="1.211" timestamp="2019-12-23T23:06:47">
+	<testsuite errors="0" failures="0" file=".py" name="TaskTest-20191224081426" skipped="0" tests="2" time="1.497" timestamp="2019-12-24T08:14:27">
+		<testcase classname="TaskTest" file="app_task\extend\task_run.py" line="16" name="test_file_data_json_dict_dict_00001_post接口用例_data_update" time="1.018" timestamp="2019-12-24T08:14:27">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>
 <![CDATA[]]>			</system-err>
 		</testcase>
-		<testcase classname="TaskTest" file="app_task\extend\task_run.py" line="16" name="test_file_data_json_dict_dict_00002_get请求啊" time="0.478" timestamp="2019-12-23T23:06:48">
+		<testcase classname="TaskTest" file="app_task\extend\task_run.py" line="16" name="test_file_data_json_dict_dict_00002_get请求啊" time="0.479" timestamp="2019-12-24T08:14:27">
 			<system-out>
 <![CDATA[]]>			</system-out>
 			<system-err>

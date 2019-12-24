@@ -32,4 +32,6 @@ urlpatterns = [
     # 任务管理
     path('task/', include('app_task.urls')),
 
+    # 变量管理
+    path("variable/", include('app_variable.urls'))
 ]
